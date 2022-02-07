@@ -7,13 +7,12 @@ services:
       - "8080:8080"
       - "7077:7077"
     volumes:
-       - ./work:/home/jovyan/work
+       - ./work:/home/work
     environment:
        - "SPARK_LOCAL_IP=spark-master"
 
   spark-worker:
     image: bde2020/spark-worker:3.0.1-hadoop3.2
-
     depends_on:
       - spark-master
     environment:
@@ -23,7 +22,7 @@ services:
       - SPARK_DRIVER_MEMORY=2G
       - SPARK_EXECUTOR_MEMORY=2G
     volumes:
-       - ./work:/home/jovyan/work
+       - ./work:/home/work
 
   pyspark-notebook:
     image: jupyter/pyspark-notebook
@@ -31,8 +30,4 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./work:/home/jovyan/work
-      - ./work/model:/tmp/model_prediction
-    environment:
-      - PYSPARK_PYTHON=/usr/bin/python3
-      - PYSPARK_DRIVER_PYTHON=ipython3
+      - ./work:/home/work
